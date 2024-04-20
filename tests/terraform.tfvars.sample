@@ -1,0 +1,3 @@
+newrelic_account_id  = "1234567"
+newrelic_license_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+api_key = "NRAK-XXXXXXXXXXXXXXXXXXXXXXXXX"
