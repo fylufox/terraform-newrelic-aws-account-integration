@@ -1,5 +1,5 @@
 module "aws-account-integration" {
-  source  = "falcon-terraform-modules/aws-account-integration/newrelic"
+  source = "falcon-terraform-modules/aws-account-integration/newrelic"
 
   newrelic_account_id                     = "1234567"
   newrelic_license_key                    = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -10,6 +10,7 @@ module "aws-account-integration" {
       enabled = true
     }
   }
+  create_metric_streams_aws_resources = true
   cloudwatch_metric_stream_include_filters = [
     "AWS/ECS",
     "AWS/ApplicationELB",

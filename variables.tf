@@ -22,13 +22,13 @@ variable "newrelic_collector_endpoint" {
 }
 
 variable "link_aws_account_metric_streams_enabled" {
-  description = "Specifies whether to enable or disable the link(Metric Stream) between the New Relic account and the AWS account. When integrating with multiple AWS regions, please enable the link(Metric Stream) in only one region. Enabling it in multiple regions will cause errors."
+  description = "Specifies whether to enable or disable the link(Metric Streams) between the New Relic account and the AWS account. When integrating with multiple AWS regions, please enable the link(Metric Streams) in only one region. Enabling it in multiple regions will cause errors."
   type        = bool
   default     = true
 }
 
 variable "link_aws_account_metric_streams_name" {
-  description = "Specifies the name for the link(Metric Stream) between the NewRelic account and the AWS account. The name must be unique within the NewRelic account. If not specified, the default is `{AWS_ACCOUNT_ID}_MetricStreams`."
+  description = "Specifies the name for the link(Metric Streams) between the NewRelic account and the AWS account. The name must be unique within the NewRelic account. If not specified, the default is `{AWS_ACCOUNT_ID}_MetricStreams`."
   type        = string
   default     = null
 }
@@ -425,14 +425,20 @@ variable "link_aws_account_api_polling_aws_integrations" {
   }
 }
 
+variable "create_metric_streams_aws_resources" {
+  description = "Specifies whether to enable or disable the creation of AWS resources necessary for integration using Metrics Streams. Set the value to `false` if you do not integrate using Metrics Streams."
+  type        = bool
+  default     = true
+}
+
 variable "cloudwatch_metric_stream_include_filters" {
-  description = "List of namespaces to include from the CloudWatch Metric Stream. Mutually exclusive with cloudwatch_metric_stream_exclude_filters. Optional."
+  description = "List of namespaces to include from the CloudWatch Metric Streams. Mutually exclusive with cloudwatch_metric_stream_exclude_filters. Optional."
   type        = list(string)
   default     = []
 }
 
 variable "cloudwatch_metric_stream_exclude_filters" {
-  description = "List of namespaces to exclude from the CloudWatch Metric Stream. Mutually exclusive with cloudwatch_metric_stream_include_filters. Optional."
+  description = "List of namespaces to exclude from the CloudWatch Metric Streams. Mutually exclusive with cloudwatch_metric_stream_include_filters. Optional."
   type        = list(string)
   default     = []
 }

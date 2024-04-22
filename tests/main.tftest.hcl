@@ -9,6 +9,7 @@ variables {
       enabled = true
     }
   }
+  create_metric_streams_aws_resources = true
   cloudwatch_metric_stream_include_filters = [
     "AWS/ECS",
     "AWS/ApplicationELB",
