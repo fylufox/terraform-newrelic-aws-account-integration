@@ -6,15 +6,8 @@ This Terraform module constructs and configures the necessary resources for inte
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.32.1 |
-| <a name="requirement_newrelic"></a> [newrelic](#requirement\_newrelic) | >= 3.28.1 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.45.0 |
-| <a name="provider_newrelic"></a> [newrelic](#provider\_newrelic) | 3.34.1 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 5.61.0 |
+| <a name="requirement_newrelic"></a> [newrelic](#requirement\_newrelic) | >= 3.40.1 |
 
 ## Resources
 
@@ -60,10 +53,10 @@ This Terraform module constructs and configures the necessary resources for inte
 | <a name="input_link_aws_account_metric_streams_name"></a> [link\_aws\_account\_metric\_streams\_name](#input\_link\_aws\_account\_metric\_streams\_name) | Specifies the name for the link(Metric Streams) between the NewRelic account and the AWS account. The name must be unique within the NewRelic account. If not specified, the default is `{AWS_ACCOUNT_ID}_MetricStreams`. | `string` | `null` | no |
 | <a name="input_link_aws_account_api_polling_enabled"></a> [link\_aws\_account\_api\_polling\_enabled](#input\_link\_aws\_account\_api\_polling\_enabled) | Specifies whether to enable or disable the link(API Polling) between the New Relic account and the AWS account. When integrating with multiple AWS regions, please enable the link(API Polling) in only one region. Enabling it in multiple regions will cause errors. | `bool` | `false` | no |
 | <a name="input_link_aws_account_api_polling_name"></a> [link\_aws\_account\_api\_polling\_name](#input\_link\_aws\_account\_api\_polling\_name) | Specifies the name for the link(API Polling) between the NewRelic account and the AWS account. The name must be unique within the NewRelic account. If not specified, the default is `{AWS_ACCOUNT_ID}_APIPolling`. | `string` | `null` | no |
-| <a name="input_link_aws_account_api_polling_aws_integrations"></a> [link\_aws\_account\_api\_polling\_aws\_integrations](#input\_link\_aws\_account\_api\_polling\_aws\_integrations) | Specifies the parameters for AWS services to be integrated via API polling. This is required when `link_aws_account_api_polling_enabled` is set to `true`. In this case, you must set `enabled` to true for at least one of the services. If `enabled` is set to false for all services, or if the value of this input is not set, apply operation will fail. For a list of supported services and parameters for each service beyond `enabled`, refer to the details at https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/cloud_aws_integrations#integration-blocks. | `object` | | no |
-| <a name="input_create_metric_streams_aws_resources"></a> [create\_metric\_streams\_aws\_resources](#input\_create\_metric\_stream\_aws\_resources) | Specifies whether to enable or disable the creation of AWS resources necessary for integration using Metrics Streams. Set the value to `false` if you do not integrate using Metrics Streams. | `bool` | `true` | no |
-| <a name="input_cloudwatch_metric_stream_include_filters"></a> [cloudwatch\_metric\_stream\_include\_filters](#input\_cloudwatch\_metric\_stream\_include\_filters) | List of namespaces to include from the CloudWatch Metric Streams. Mutually exclusive with cloudwatch\_metric\_stream\_exclude\_filters. Optional. | `list(string)` | `[]` | no |
-| <a name="input_cloudwatch_metric_stream_exclude_filters"></a> [cloudwatch\_metric\_stream\_exclude\_filters](#input\_cloudwatch\_metric\_stream\_exclude\_filters) | List of namespaces to exclude from the CloudWatch Metric Streams. Mutually exclusive with cloudwatch\_metric\_stream\_include\_filters. Optional. | `list(string)` | `[]` | no |
+| <a name="input_link_aws_account_api_polling_aws_integrations"></a> [link\_aws\_account\_api\_polling\_aws\_integrations](#input\_link\_aws\_account\_api\_polling\_aws\_integrations) | Specifies the parameters for AWS services to be integrated via API polling. This is required when `link_aws_account_api_polling_enabled` is set to `true`. In this case, you must set `enabled` to true for at least one of the services. If `enabled` is set to false for all services, or if the value of this input is not set, apply operation will fail. For a list of supported services and parameters for each service beyond `enabled`, refer to the details at https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/cloud_aws_integrations#integration-blocks. | `object` | `null` | no |
+| <a name="input_create_metric_streams_aws_resources"></a> [create\_metric\_streams\_aws\_resources](#input\_create\_metric\_streams\_aws\_resources) | Specifies whether to enable or disable the creation of AWS resources necessary for integration using Metrics Streams. Set the value to `false` if you do not integrate using Metrics Streams. | `bool` | `true` | no |
+| <a name="input_cloudwatch_metric_stream_include_filters"></a> [cloudwatch\_metric\_stream\_include\_filters](#input\_cloudwatch\_metric\_stream\_include\_filters) | List of filters specifying which metrics to include in the CloudWatch Metric Stream. Each filter must specify a 'namespace' and a list of 'metric\_names'. Providing an empty list for 'metric\_names' includes all metrics from the specified namespace. Mutually exclusive with cloudwatch\_metric\_stream\_exclude\_filters. Optional. | <pre>list(object({<br>    namespace    = string<br>    metric_names = list(string)<br>  }))</pre> | `[]` | no |
+| <a name="input_cloudwatch_metric_stream_exclude_filters"></a> [cloudwatch\_metric\_stream\_exclude\_filters](#input\_cloudwatch\_metric\_stream\_exclude\_filters) | List of filters specifying which metrics to exclude from the CloudWatch Metric Stream. Each filter must specify a 'namespace' and a list of 'metric\_names'. Providing an empty list for 'metric\_names' all metrics in the namespace are excluded. Mutually exclusive with cloudwatch\_metric\_stream\_include\_filters. Optional. | <pre>list(object({<br>    namespace    = string<br>    metric_names = list(string)<br>  }))</pre> | `[]` | no |
 | <a name="input_firehose_bucket_expiration_days"></a> [firehose\_bucket\_expiration\_days](#input\_firehose\_bucket\_expiration\_days) | Specifies the retention period for error records of Firehose. The value must be `0` or greater. If this parameter is not specified, the retention period will be indefinite. | `number` | `null` | no |
 | <a name="input_aws_config_enabled"></a> [aws\_config\_enabled](#input\_aws\_config\_enabled) | Specifies whether to enable or disable AWS Config. New Relic utilizes AWS Config to collect metadata. If you want to collect metadata from AWS Config to enhance the attributes of your metrics, please enable AWS Config. If you integrate with an AWS account where AWS Config is already enabled, set the value to `false`. If the purpose of enabling AWS Config is to enhance security, it is advisable to enable AWS Config through other means. | `bool` | `false` | no |
 | <a name="input_aws_config_configuration_recorder_resource_types"></a> [aws\_config\_configuration\_recorder\_resource\_types](#input\_aws\_config\_configuration\_recorder\_resource\_types) | A list that specifies the types of AWS resources for which AWS Config records configuration changes (for example, AWS::EC2::Instance or AWS::CloudTrail::Trail). See https://docs.aws.amazon.com/config/latest/APIReference/API_ResourceIdentifier.html#config-Type-ResourceIdentifier-resourceType for available types. This is a required variable if the value of `aws_config_enabled` is set to `true`. | `list(string)` | `[]` | no |
@@ -92,7 +85,7 @@ terraform {
   required_providers {
     newrelic = {
       source  = "newrelic/newrelic"
-      version = ">= 3.28.1"
+      version = "= 3.40.1"
     }
   }
 }
@@ -103,7 +96,7 @@ terraform {
 ## Example Usage
 ```hcl
 module "aws-account-integration" {
-  source  = "falcon-terraform-modules/aws-account-integration/newrelic"
+  source = "falcon-terraform-modules/aws-account-integration/newrelic"
 
   newrelic_account_id                     = "1234567"
   newrelic_license_key                    = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
@@ -116,21 +109,22 @@ module "aws-account-integration" {
   }
   create_metric_streams_aws_resources = true
   cloudwatch_metric_stream_include_filters = [
-    "AWS/ECS",
-    "AWS/ApplicationELB",
-    "AWS/RDS",
-    "AWS/SES",
-    "AWS/Lambda"
+    {
+      namespace    = "AWS/ECS",
+      metric_names = ["CPUUtilization", "MemoryReservation"]
+    },
+    {
+      namespace    = "AWS/RDS",
+      metric_names = []
+    }
   ]
   firehose_bucket_expiration_days = 7
   aws_config_enabled              = true
   aws_config_configuration_recorder_resource_types = [
     "AWS::ECS::Cluster",
     "AWS::ECS::Service",
-    "AWS::ElasticLoadBalancingV2::LoadBalancer",
     "AWS::RDS::DBInstance",
-    "AWS::RDS::DBCluster",
-    "AWS::Lambda::Function"
+    "AWS::RDS::DBCluster"
   ]
   aws_config_configuration_recording_frequency = "DAILY"
   config_bucket_expiration_days                = 7

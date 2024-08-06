@@ -672,13 +672,15 @@ resource "aws_cloudwatch_metric_stream" "main" {
   dynamic "include_filter" {
     for_each = var.cloudwatch_metric_stream_include_filters
     content {
-      namespace = include_filter["value"]
+      namespace    = include_filter.value.namespace
+      metric_names = include_filter.value.metric_names
     }
   }
   dynamic "exclude_filter" {
     for_each = var.cloudwatch_metric_stream_exclude_filters
     content {
-      namespace = exclude_filter["value"]
+      namespace    = exclude_filter.value.namespace
+      metric_names = exclude_filter.value.metric_names
     }
   }
   tags = {

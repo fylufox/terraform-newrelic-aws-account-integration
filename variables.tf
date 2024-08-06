@@ -432,15 +432,21 @@ variable "create_metric_streams_aws_resources" {
 }
 
 variable "cloudwatch_metric_stream_include_filters" {
-  description = "List of namespaces to include from the CloudWatch Metric Streams. Mutually exclusive with cloudwatch_metric_stream_exclude_filters. Optional."
-  type        = list(string)
-  default     = []
+  description = "List of filters specifying which metrics to include in the CloudWatch Metric Stream. Each filter must specify a 'namespace' and a list of 'metric_names'. Providing an empty list for 'metric_names' includes all metrics from the specified namespace. Mutually exclusive with cloudwatch_metric_stream_exclude_filters. Optional."
+  type = list(object({
+    namespace    = string
+    metric_names = list(string)
+  }))
+  default = []
 }
 
 variable "cloudwatch_metric_stream_exclude_filters" {
-  description = "List of namespaces to exclude from the CloudWatch Metric Streams. Mutually exclusive with cloudwatch_metric_stream_include_filters. Optional."
-  type        = list(string)
-  default     = []
+  description = "List of filters specifying which metrics to exclude from the CloudWatch Metric Stream. Each filter must specify a 'namespace' and a list of 'metric_names'. Providing an empty list for 'metric_names' all metrics in the namespace are excluded. Mutually exclusive with cloudwatch_metric_stream_include_filters. Optional."
+  type = list(object({
+    namespace    = string
+    metric_names = list(string)
+  }))
+  default = []
 }
 
 variable "firehose_bucket_expiration_days" {
