@@ -553,6 +553,13 @@ resource "aws_s3_bucket_lifecycle_configuration" "firehose" {
       days = var.firehose_bucket_expiration_days
     }
   }
+  rule {
+    id     = "abort_incomplete_multipart"
+    status = "Enabled"
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+  }
 }
 
 resource "aws_iam_role" "firehose" {
@@ -705,6 +712,13 @@ resource "aws_s3_bucket_lifecycle_configuration" "config" {
     status = "Enabled"
     expiration {
       days = var.config_bucket_expiration_days
+    }
+  }
+  rule {
+    id     = "abort_incomplete_multipart"
+    status = "Enabled"
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
     }
   }
 }
