@@ -543,21 +543,48 @@ resource "aws_s3_bucket" "firehose" {
   }
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "firehose" {
-  count  = var.create_metric_streams_aws_resources && var.firehose_bucket_expiration_days != null ? 1 : 0
+resource "aws_s3_bucket_versioning" "firehose" {
+  count  = var.create_metric_streams_aws_resources ? 1 : 0
   bucket = var.create_metric_streams_aws_resources ? aws_s3_bucket.firehose[0].bucket : ""
-  rule {
-    id     = "expiration"
+  versioning_configuration {
     status = "Enabled"
-    expiration {
-      days = var.firehose_bucket_expiration_days
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "firehose" {
+  count  = var.create_metric_streams_aws_resources ? 1 : 0
+  bucket = var.create_metric_streams_aws_resources ? aws_s3_bucket.firehose[0].bucket : ""
+  dynamic "rule" {
+    for_each = var.firehose_bucket_expiration_days != null ? [1] : []
+    content {
+      id     = "expiration"
+      status = "Enabled"
+      expiration {
+        days = var.firehose_bucket_expiration_days
+      }
+      noncurrent_version_expiration {
+        noncurrent_days = 1
+      }
     }
   }
-  rule {
-    id     = "abort_incomplete_multipart"
-    status = "Enabled"
-    abort_incomplete_multipart_upload {
-      days_after_initiation = 7
+  dynamic "rule" {
+    for_each = [1]
+    content {
+      id     = "expiration_delete_markers"
+      status = "Enabled"
+      expiration {
+        expired_object_delete_marker = true
+      }
+    }
+  }
+  dynamic "rule" {
+    for_each = [1]
+    content {
+      id     = "abort_incomplete_multipart"
+      status = "Enabled"
+      abort_incomplete_multipart_upload {
+        days_after_initiation = 7
+      }
     }
   }
 }
@@ -704,21 +731,48 @@ resource "aws_s3_bucket" "config" {
   }
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "config" {
-  count  = var.create_metric_streams_aws_resources && var.aws_config_enabled && var.config_bucket_expiration_days != "" ? 1 : 0
-  bucket = var.create_metric_streams_aws_resources && var.aws_config_enabled ? aws_s3_bucket.config[0].bucket : ""
-  rule {
-    id     = "expiration"
+resource "aws_s3_bucket_versioning" "config" {
+  count  = var.create_metric_streams_aws_resources ? 1 : 0
+  bucket = var.create_metric_streams_aws_resources ? aws_s3_bucket.config[0].bucket : ""
+  versioning_configuration {
     status = "Enabled"
-    expiration {
-      days = var.config_bucket_expiration_days
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "config" {
+  count  = var.create_metric_streams_aws_resources && var.aws_config_enabled ? 1 : 0
+  bucket = var.create_metric_streams_aws_resources && var.aws_config_enabled ? aws_s3_bucket.config[0].bucket : ""
+  dynamic "rule" {
+    for_each = var.config_bucket_expiration_days != null ? [1] : []
+    content {
+      id     = "expiration"
+      status = "Enabled"
+      expiration {
+        days = var.config_bucket_expiration_days
+      }
+      noncurrent_version_expiration {
+        noncurrent_days = 1
+      }
     }
   }
-  rule {
-    id     = "abort_incomplete_multipart"
-    status = "Enabled"
-    abort_incomplete_multipart_upload {
-      days_after_initiation = 7
+  dynamic "rule" {
+    for_each = [1]
+    content {
+      id     = "expiration_delete_markers"
+      status = "Enabled"
+      expiration {
+        expired_object_delete_marker = true
+      }
+    }
+  }
+  dynamic "rule" {
+    for_each = [1]
+    content {
+      id     = "abort_incomplete_multipart"
+      status = "Enabled"
+      abort_incomplete_multipart_upload {
+        days_after_initiation = 7
+      }
     }
   }
 }
