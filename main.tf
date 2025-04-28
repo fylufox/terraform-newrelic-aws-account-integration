@@ -781,27 +781,28 @@ resource "aws_iam_role" "config" {
   count              = var.create_metric_streams_aws_resources && var.aws_config_enabled ? 1 : 0
   name               = "${local.config_role_name}-${local.region_short_name[data.aws_region.current.name]}"
   assume_role_policy = data.aws_iam_policy_document.assume_role["config"].json
-  inline_policy {
-    name = local.config_policy_name
-    policy = jsonencode(
-      {
-        Version = "2012-10-17"
-        Statement = [
-          {
-            Effect = "Allow"
-            Action = [
-              "s3:PutObject",
-              "s3:PutObjectAcl"
-            ]
-            Resource = var.create_metric_streams_aws_resources && var.aws_config_enabled ? "arn:aws:s3:::${aws_s3_bucket.config[0].bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*" : ""
-          },
-        ]
-      }
-    )
-  }
   tags = {
     Name = "${local.config_role_name}-${local.region_short_name[data.aws_region.current.name]}"
   }
+}
+
+resource "aws_iam_role_policy" "config" {
+  count = var.create_metric_streams_aws_resources && var.aws_config_enabled ? 1 : 0
+  name  = "${local.config_role_name}-${local.region_short_name[data.aws_region.current.name]}_inline"
+  role  = var.create_metric_streams_aws_resources && var.aws_config_enabled ? aws_iam_role.config[0].name : ""
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:PutObject",
+          "s3:PutObjectAcl"
+        ]
+        Resource = var.create_metric_streams_aws_resources && var.aws_config_enabled ? "arn:aws:s3:::${aws_s3_bucket.config[0].bucket}/AWSLogs/${data.aws_caller_identity.current.account_id}/*" : ""
+      }
+    ]
+  })
 }
 
 resource "aws_iam_role_policy_attachment" "config" {
