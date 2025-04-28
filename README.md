@@ -33,6 +33,8 @@ This Terraform module constructs and configures the necessary resources for inte
 | [aws_s3_bucket.firehose](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket) | resource |
 | [aws_s3_bucket_lifecycle_configuration.config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
 | [aws_s3_bucket_lifecycle_configuration.firehose](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration) | resource |
+| [aws_s3_bucket_versioning.config](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
+| [aws_s3_bucket_versioning.firehose](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_versioning) | resource |
 | [newrelic_cloud_aws_integrations.api_polling](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/cloud_aws_integrations) | resource |
 | [newrelic_cloud_aws_link_account.api_polling](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/cloud_aws_link_account) | resource |
 | [newrelic_cloud_aws_link_account.metric_streams](https://registry.terraform.io/providers/newrelic/newrelic/latest/docs/resources/cloud_aws_link_account) | resource |
