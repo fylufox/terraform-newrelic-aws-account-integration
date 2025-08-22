@@ -32,11 +32,22 @@ variables {
   config_bucket_expiration_days                = 7
 }
 
-provider "newrelic" {
-  account_id = var.newrelic_account_id
-  api_key    = var.api_key
+mock_provider "newrelic" {}
+
+mock_provider "aws" {
+  mock_data "aws_region" {
+    defaults = {
+      name = "ap-northeast-1"
+    }
+  }
 }
 
 run "main" {
   command = plan
+
+  variables {
+    newrelic_account_id  = "1234567"
+    newrelic_license_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    api_key              = "NRAK-XXXXXXXXXXXXXXXXXXXXXXXXX"
+  }
 }
