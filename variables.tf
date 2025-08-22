@@ -81,6 +81,10 @@ variable "link_aws_account_api_polling_aws_integrations" {
     s3 = optional(object({
       enabled                  = optional(bool, false)
       metrics_polling_interval = optional(number, null)
+      fetch_extended_inventory = optional(bool, null)
+      fetch_tags               = optional(bool, null)
+      tag_key                  = optional(string, null)
+      tag_value                = optional(string, null)
     }), {})
     doc_db = optional(object({
       enabled                  = optional(bool, false)

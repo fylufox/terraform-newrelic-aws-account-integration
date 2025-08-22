@@ -154,6 +154,10 @@ resource "newrelic_cloud_aws_integrations" "api_polling" {
     for_each = var.link_aws_account_api_polling_aws_integrations.s3.enabled ? [1] : []
     content {
       metrics_polling_interval = var.link_aws_account_api_polling_aws_integrations.s3.metrics_polling_interval
+      fetch_extended_inventory = var.link_aws_account_api_polling_aws_integrations.s3.fetch_extended_inventory
+      fetch_tags               = var.link_aws_account_api_polling_aws_integrations.s3.fetch_tags
+      tag_key                  = var.link_aws_account_api_polling_aws_integrations.s3.tag_key
+      tag_value                = var.link_aws_account_api_polling_aws_integrations.s3.tag_value
     }
   }
   dynamic "doc_db" {
