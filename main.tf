@@ -732,8 +732,8 @@ resource "aws_s3_bucket" "config" {
 }
 
 resource "aws_s3_bucket_versioning" "config" {
-  count  = var.create_metric_streams_aws_resources ? 1 : 0
-  bucket = var.create_metric_streams_aws_resources ? aws_s3_bucket.config[0].bucket : ""
+  count  = var.create_metric_streams_aws_resources && var.aws_config_enabled ? 1 : 0
+  bucket = var.create_metric_streams_aws_resources && var.aws_config_enabled ? aws_s3_bucket.config[0].bucket : ""
   versioning_configuration {
     status = "Enabled"
   }
